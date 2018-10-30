@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 def create_chrome_driver():
@@ -22,6 +23,6 @@ def driver(request):
 
 def test_successful_login(driver: WebDriver):
     driver.get("http://localhost:8080/litecart/admin/login.php")
-    driver.find_element_by_name("username").send_keys('admin', Keys.ENTER)
+    driver.find_element_by_name("username").send_keys('admin', Keys.TAB)
     driver.find_element_by_name("password").send_keys('admin', Keys.ENTER)
-    WebDriverWait(driver, 10).until(EC.url_to_be("http://localhost:8080/litecart/admin/"))
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'sidebar')))
