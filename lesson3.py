@@ -7,7 +7,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from drivers import drivers
 from selenium.webdriver.common.by import By
 
-#drivers.create_chrome_driver()
+
+# drivers.create_chrome_driver()
 
 
 # from drivers import DriverFactory
@@ -15,7 +16,7 @@ from selenium.webdriver.common.by import By
 
 @pytest.fixture
 def driver(request):
-    chrome = drivers.create_chrome_driver()
+    chrome=drivers.create_chrome_driver()
     request.addfinalizer(chrome.quit)
     return chrome
 
@@ -29,12 +30,23 @@ def test_check_list(driver: WebDriver):
     #    driver.find_element_by_css_selector("button[type='submit']").click()
 
     for i in range(len(get_sidebar_list(driver))):
-        row = get_sidebar_list(driver)[i]
-        row.find_element_by_css_selector("a").click()
-        WebDriverWait(driver, 10).until(EC.url_changes("http://localhost:8080/litecart/admin/"))
+        row=get_sidebar_list(driver)[i]
+        click_and_check_change(driver, row.find_element_by_css_selector("a"))
+        for k in range(1, len(get_sidebar_list_second_level(driver))):
+            subrow=get_sidebar_list_second_level(driver)[k]
+            click_and_check_change(driver, subrow.find_element_by_css_selector("a"))
         time.sleep(1)
 
 
 def get_sidebar_list(driver):
     return driver.find_elements_by_css_selector("#app-")
 
+
+def get_sidebar_list_second_level(driver):
+    return driver.find_elements_by_css_selector(".docs li")
+
+
+def click_and_check_change(driver, element):
+    url_before_click=driver.current_url
+    element.click()
+    WebDriverWait(driver, 10).until(EC.url_changes(url_before_click))
