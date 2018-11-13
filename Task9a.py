@@ -2,7 +2,7 @@ import pytest
 from selenium.webdriver.remote.webdriver import WebDriver
 from steps import login_litecart
 from drivers import drivers
-
+import time
 
 @pytest.fixture
 def driver(request):
@@ -15,8 +15,11 @@ def test_is_zones_sorted(driver: WebDriver):
     login_litecart(driver)
     driver.get("http://localhost:8080/litecart/admin/?app=geo_zones&doc=geo_zones")
     for i in range(len(find_rows(driver))):
-        driver.find_element_by_css_selector("a").click()
-        selects = driver.find_elements_by_css_selector("select")
+        row = find_rows(driver)[i]
+        row.find_element_by_css_selector("a").click()
+        time.sleep(3)
+        td = driver.find_elements_by_css_selector("#table-zones td")[2]
+        selects = td.find_elements_by_css_selector("select")
         assert is_sorted(get_all_selected_options(selects))
         driver.back()
 
