@@ -18,8 +18,8 @@ def test_is_zones_sorted(driver: WebDriver):
         row = find_rows(driver)[i]
         row.find_element_by_css_selector("a").click()
         time.sleep(3)
-        td = driver.find_elements_by_css_selector("#table-zones td")[2]
-        selects = td.find_elements_by_css_selector("select")
+        selects = driver.find_elements_by_css_selector("select:not(.select2-hidden-accessible)")
+        assert len(selects) > 1
         assert is_sorted(get_all_selected_options(selects))
         driver.back()
 
