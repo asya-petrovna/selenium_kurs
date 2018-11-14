@@ -15,7 +15,7 @@ def driver(request):
 
 
 def test_check_goods(driver: WebDriver):
-    """Task 10 a, names"""
+    """Task 10 a,b names"""
     name_main = driver.find_element_by_css_selector('#box-campaigns .name').get_attribute('textContent')
     price_main = driver.find_element_by_css_selector('#box-campaigns .regular-price').get_attribute('textContent')
     sale_main = driver.find_element_by_css_selector('#box-campaigns .campaign-price').get_attribute('textContent')
