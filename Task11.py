@@ -25,8 +25,8 @@ def test_registration(driver: WebDriver):
     driver.find_element_by_css_selector("input[name = 'city']").send_keys("Berlin", Keys.TAB)
     select = Select(driver.find_element_by_css_selector("select[name = 'country_code']"))
     select.select_by_visible_text('United States')
-
-    driver.find_element_by_css_selector("input[name = 'email']").send_keys("i@gmail.com", Keys.TAB)
+    email = generate_email()
+    driver.find_element_by_css_selector("input[name = 'email']").send_keys(email, Keys.TAB)
     driver.find_element_by_css_selector("input[name = 'phone']").send_keys("123456789", Keys.TAB)
 #    driver.find_element_by_css_selector("input[type = 'checkbox']").clear()
     if driver.find_element_by_css_selector("input[type = 'checkbox']").get_attribute('value') == 1:
@@ -46,11 +46,15 @@ def test_registration(driver: WebDriver):
     driver.find_elements_by_css_selector("#box-account .content .list-vertical a")[3].click()
     time.sleep(2)
     driver.find_element_by_css_selector("input[name = 'email']").clear()
-    driver.find_element_by_css_selector("input[name = 'email']").send_keys("i@gmail.com", Keys.TAB)
+    driver.find_element_by_css_selector("input[name = 'email']").send_keys(email, Keys.TAB)
     driver.find_element_by_css_selector("input[name = 'password']").clear()
     driver.find_element_by_css_selector("input[name = 'password']").send_keys("123456", Keys.TAB)
     driver.find_element_by_css_selector("button[name = 'login']").click()
     time.sleep(2)
     WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'list-vertical')))
     driver.find_elements_by_css_selector("#box-account .content .list-vertical a")[3].click()
-    time.sleep(2)
+    time.sleep(10)
+
+
+def generate_email():
+    return f'g{int(time.time())}@gmail.com'
