@@ -10,3 +10,13 @@ def login_litecart(driver: WebDriver):
     driver.find_element_by_name("username").send_keys('admin', Keys.TAB)
     driver.find_element_by_name("password").send_keys('admin', Keys.ENTER)
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'sidebar')))
+
+
+def login_as_customer(driver: WebDriver):
+    driver.get('http://localhost:8080/litecart/en/')
+    driver.find_element_by_css_selector("input[name = 'email']").clear()
+    driver.find_element_by_css_selector("input[name = 'email']").send_keys("asya.gush@gmail.com", Keys.TAB)
+    driver.find_element_by_css_selector("input[name = 'password']").clear()
+    driver.find_element_by_css_selector("input[name = 'password']").send_keys("123456", Keys.TAB)
+    driver.find_element_by_css_selector("button[name = 'login']").click()
+    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'list-vertical')))
