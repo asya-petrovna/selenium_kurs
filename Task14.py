@@ -15,6 +15,7 @@ def driver(request):
 
 def test_check_link_in_new_window(driver: WebDriver):
     def open_new_window(external_link):
+        main_window = driver.current_window_handle
         set_before = set(driver.window_handles)
         external_link.click()
         WebDriverWait(driver, 5).until(EC.new_window_is_opened)
@@ -28,7 +29,6 @@ def test_check_link_in_new_window(driver: WebDriver):
     login_litecart(driver)
     driver.find_elements_by_css_selector("#app-")[2].click()
     driver.find_element_by_css_selector('.button').click()
-    main_window = driver.current_window_handle
     links = driver.find_elements_by_css_selector(".fa-external-link")
     for link in links:
         open_new_window(link)
