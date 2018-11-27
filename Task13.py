@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from drivers import drivers
-from steps import login_as_customer
+from steps import login_as_customer_old
 
 
 @pytest.fixture
@@ -56,7 +56,7 @@ def test_add_and_dell_item_to_cart(driver: WebDriver):
         except TimeoutException:
             pass
 
-    login_as_customer(driver)
+    login_as_customer_old(driver)
     for i in range(3):
         add_item_to_cart()
     driver.find_element_by_xpath(f"//*[contains(text(), 'Checkout')]").click()
