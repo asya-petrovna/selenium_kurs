@@ -1,14 +1,15 @@
-import pytest
 import time
+
+import pytest
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.remote.webdriver import WebDriver
 
 from drivers import drivers
-from selenium.webdriver.remote.webdriver import WebDriver
 
 
 @pytest.fixture
 def driver(request):
-    chrome=drivers.create_chrome_driver()
+    chrome = drivers.create_chrome_driver()
     request.addfinalizer(chrome.quit)
     return chrome
 
@@ -23,7 +24,7 @@ def test_check_goods(driver: WebDriver):
 
 
 def get_goods_list(driver):
-    return driver.find_elements_by_css_selector('li.product.column.shadow.hover-light')
+    return driver.find_elements_by_css_selector('.product')
 
 
 def is_element_present(driver, selector):
