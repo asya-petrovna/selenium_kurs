@@ -1,7 +1,9 @@
 from unittest import TestCase
-
+import time
 from drivers import DriverFactory
 from steps_for_widget import UsedSteps
+from parameterized import parameterized
+from selenium.webdriver.common.by import By
 
 
 class TestsUsingWidgetForDifferentSites(TestCase):
@@ -21,34 +23,28 @@ class TestsUsingWidgetForDifferentSites(TestCase):
         self.steps.wait_until_element_presence(By.CSS_SELECTOR, '.fitanalytics__button-text')
         self.steps.find_and_click_on_element('.fitanalytics__button-text')
         self.steps.wait_until_element_presence(By.XPATH, '//*[contains(.,"Ihre Angaben")]')
-
-        driver.find_element_by_css_selector("input#uclw_form_height").send_keys('165')
-        driver.find_element_by_css_selector("input#uclw_form_weight").send_keys('60')
+        self.steps.find_and_fill_input("input#uclw_form_height", '165')
+        self.steps.find_and_fill_input("input#uclw_form_weight", '60')
         self.steps.find_and_click_on_element("button#uclw_save_info_button")
-
-        driver.find_element_by_css_selector().click()
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(.,"Ihre Bauchform")]')))
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "li.uclw_item.uclw_key_1")))
+        self.steps.wait_until_element_presence(By.XPATH, '//*[contains(.,"Ihre Bauchform")]')
+        self.steps.wait_until_element_presence(By.CSS_SELECTOR, "li.uclw_item.uclw_key_1")
         time.sleep(1)
-        driver.find_element_by_css_selector('li.uclw_item.uclw_key_1').click()
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(.,"Ihre Hüftform")]')))
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "li.uclw_item.uclw_key_1")))
+        self.steps.find_and_click_on_element('li.uclw_item.uclw_key_1')
+        self.steps.wait_until_element_presence(By.XPATH, '//*[contains(.,"Ihre Hüftform")]')
+        self.steps.wait_until_element_presence(By.CSS_SELECTOR, "li.uclw_item.uclw_key_1")
         time.sleep(1)
-        driver.find_element_by_css_selector('span#uclw_item_shape_1').click()
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(.,"hinzufügen")]')))
+        self.steps.find_and_click_on_element('span#uclw_item_shape_1')
+        self.steps.wait_until_element_presence(By.XPATH, '//*[contains(.,"hinzufügen")]')
         time.sleep(2)
-        driver.find_element_by_css_selector('.uclw_section.uclw_left .uclw_item.uclw_key_2').click()
-        driver.find_element_by_css_selector('.uclw_section.uclw_right .uclw_item.uclw_key_2').click()
-        driver.find_element_by_css_selector('button.uclw_button.uclw_submit_form_button').click()
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'input.uclw_input_text')))
-        driver.find_element_by_css_selector('input.uclw_input_text').send_keys('30')
-        driver.find_element_by_css_selector('button.uclw_button.uclw_submit_form_button').click()
+        self.steps.find_and_click_on_element('.uclw_section.uclw_left .uclw_item.uclw_key_2')
+        self.steps.find_and_click_on_element('.uclw_section.uclw_right .uclw_item.uclw_key_2')
+        self.steps.find_and_click_on_element('button.uclw_button.uclw_submit_form_button')
+        self.steps.wait_until_element_presence(By.CSS_SELECTOR, 'input.uclw_input_text')
+        self.steps.find_and_fill_input('input.uclw_input_text', '30')
+        self.steps.find_and_click_on_element('button.uclw_button.uclw_submit_form_button')
         time.sleep(2)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'span.uclw_field_label')))
+        self.steps.wait_until_element_presence(By.CSS_SELECTOR, 'span.uclw_field_label')
+        time.sleep(2)
+        #        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(.,"Etwas enger")]')))
 
-        Keys.TAB()
-        Keys.ARROW_LEFT
-        time.sleep(2)
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(.,"Etwas enger")]')))
-        time.sleep(2)
         driver.find_element_by_css_selector('button.uclw_button.uclw_submit_form_button').click()

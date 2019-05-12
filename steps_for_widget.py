@@ -13,3 +13,6 @@ class UsedSteps:
 
     def wait_until_element_presence(self, method, selector):
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((method, selector)))
+
+    def find_and_fill_input(self, selector, text):
+        self.driver.find_element_by_css_selector(selector).send_keys(text)
