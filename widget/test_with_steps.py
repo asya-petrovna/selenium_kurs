@@ -1,7 +1,7 @@
 from unittest import TestCase
 import time
 from drivers import DriverFactory
-from steps_for_widget import UsedSteps
+from widget.steps import UsedSteps
 from parameterized import parameterized
 from selenium.webdriver.common.by import By
 
