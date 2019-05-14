@@ -1,9 +1,12 @@
-from unittest import TestCase
 import time
-from drivers import DriverFactory
-from widget.steps import UsedSteps
+from unittest import TestCase, TestLoader, TestSuite
+
+from HtmlTestRunner import HTMLTestRunner
 from parameterized import parameterized
 from selenium.webdriver.common.by import By
+
+from drivers import DriverFactory
+from widget.steps import UsedSteps
 
 
 class TestsUsingWidgetForDifferentSites(TestCase):
@@ -43,8 +46,23 @@ class TestsUsingWidgetForDifferentSites(TestCase):
         self.steps.find_and_fill_input('input.uclw_input_text', '30')
         self.steps.find_and_click_on_element('button.uclw_button.uclw_submit_form_button')
         time.sleep(2)
-        self.steps.wait_until_element_presence(By.CSS_SELECTOR, 'span.uclw_field_label')
+        self.steps.wait_until_element_presence(By.CSS_SELECTOR, 'div.uclw_fit_indicators_right')
         time.sleep(2)
-        #        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[contains(.,"Etwas enger")]')))
-
+        self.steps.find_and_click_on_element('div.uclw_fit_indicators_right')
+        self.assertEqual(driver.find_element_by_css_selector("div.uclw_fit_fit span").get_attribute('textContent'),
+                         'Etwas lockerer')
+        time.sleep(3)
         driver.find_element_by_css_selector('button.uclw_button.uclw_submit_form_button').click()
+        time.sleep(3)
+        self.assertEqual(driver.find_element_by_css_selector("#aria_uclw_headline").get_attribute('textContent'),
+                         'Ihre beste Größe')
+
+
+if __name__ == '__main__':
+    # opening file streams
+    # outfile = open("test-report.html", "w")
+    # with open('test-report.html', 'w') as outfile:
+
+    # running test with report. more on that: https://github.com/oldani/HtmlTestRunner#usage
+    runner = HTMLTestRunner(report_title='Test Report', report_name='TestReport')
+    runner.run(TestLoader().loadTestsFromTestCase(TestsUsingWidgetForDifferentSites))
