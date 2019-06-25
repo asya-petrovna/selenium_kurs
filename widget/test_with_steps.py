@@ -58,6 +58,22 @@ class TestsUsingWidgetForDifferentSites(TestCase):
                          'Ihre beste Größe')
 
 
+class SuperClass:
+    def func(self):
+        a = 0
+        b = self.get_b(a)
+        c = a - b
+        return c + 2 * a
+
+    def get_b(self, a):
+        return 2 * a + 1
+
+
+class SubClass(SuperClass):
+    def get_b(self, a):
+        return a - 4
+
+
 if __name__ == '__main__':
     # opening file streams
     # outfile = open("test-report.html", "w")
